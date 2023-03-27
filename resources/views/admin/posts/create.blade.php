@@ -11,7 +11,7 @@
         </div>
         <div class="row">
             <div class="col">
-                <form action="{{ route('admin.posts.store') }}" method="POST">
+                <form action="{{ route('admin.posts.store') }}" method="POST" enctype="multipart/form-data">
 
                     @csrf
                     <div>
@@ -21,6 +21,12 @@
                     <div>
                         <label for="content" class="form-label">Contenuto</label>
                         <input type="text" name="content" id="content" class="form-control" required placeholder="Inserisci il contenuto del progetto">
+                    </div>
+                    <div>
+                        <label for="img" class="form-label">
+
+                        </label>
+                        <input type="file" name="img" id="img" class="form-control" value="{{ old('img') }}" accept="image/*" >
                     </div>
                     <div>
                         <button type="submit" class="btn btn-success mt-5">

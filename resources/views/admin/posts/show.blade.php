@@ -11,6 +11,13 @@
                 <p>
                     {{ $post->content }}
                 </p>
+
+                @if ($post->img)
+                    <div>
+                        <img src="{{ asset('storage/'.$post->img) }}" alt="" style="height: 300px">
+                    </div>
+                @endif
+            
             </div>
         </div>
     </div>

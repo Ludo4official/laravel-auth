@@ -8,6 +8,7 @@ use App\Models\Post;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -43,13 +44,15 @@ class PostController extends Controller
     {
         $data = $request->validated();
 
-        $slug = Str::slug($data['title']);
+        if (array_key_exists('img', $data)) {
 
-        $newPost = Post::create([
-            'title' => $data['title'],
-            'slug' => $slug,
-            'content' => $data['content']
-        ]);
+            $imgPath = Storage::put('posts', $data['img']);
+            $data['img'] = $imgPath;
+        }
+
+        $data['slug'] = Str::slug($data['title']);
+
+        $newPost = Post::create($data);
 
         return redirect()->route('admin.posts.show', $newPost);
     }
