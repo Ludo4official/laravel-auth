@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -29,7 +30,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.posts.create');
     }
 
     /**
@@ -40,7 +41,17 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        $slug = Str::slug($data['title']);
+
+        $newPost = Post::create([
+            'title' => $data['title'],
+            'slug' => $slug,
+            'content' => $data['content']
+        ]);
+
+        return redirect()->route('admin.posts.show', $newPost);
     }
 
     /**
@@ -51,7 +62,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        return view('admin.posts.show', compact('post'));
     }
 
     /**
@@ -62,7 +73,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('admin.posts.edit', compact('post'));
     }
 
     /**
@@ -74,7 +85,13 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
-        //
+        $data = $request->validated();
+
+        $slug = Str::slug($data['title']);
+
+        $post->update($data);
+
+        return redirect()->route('admin.posts.index', $post->id);
     }
 
     /**
@@ -85,6 +102,8 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+
+        return redirect()->route('admin.posts.index');
     }
 }

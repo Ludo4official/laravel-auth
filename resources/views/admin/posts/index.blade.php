@@ -5,11 +5,11 @@
         <div class="row justify-content-center mb-4">
             <div class="col">
                 <h1>
-                    Tutti gli articoli
+                    Tutti i progetti
                 </h1>
 
                 <a href="{{ route('admin.posts.create') }}" class="btn btn-success">
-                    Aggiungi articolo
+                    Aggiungi progetto
                 </a>
             </div>
         </div>
